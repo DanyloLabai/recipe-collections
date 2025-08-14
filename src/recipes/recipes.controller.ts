@@ -1,4 +1,27 @@
-import { Controller } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
+import { RecipesService } from './recipes.service';
+
 
 @Controller('recipes')
-export class RecipesController {}
+export class RecipesController {
+  constructor(private readonly recipesService: RecipesService) {}
+
+  @Get()
+  findAll() {
+    return this.recipesService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.recipesService.findOne(id);
+  }
+}
