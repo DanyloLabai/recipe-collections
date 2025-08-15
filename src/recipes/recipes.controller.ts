@@ -1,15 +1,14 @@
 import {
   Controller,
   Get,
-  Post,
-  Patch,
-  Delete,
+  // Post,
+  // Patch,
+  // Delete,
   Param,
   Body,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
-
 
 @Controller('recipes')
 export class RecipesController {
