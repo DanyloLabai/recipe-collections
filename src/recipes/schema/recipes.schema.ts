@@ -1,7 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type RecipeDocument = Recipe & Document;
+
+export enum RecipeStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REJECTED = 'REJECTED',
+}
 
 @Schema()
 export class Recipe {
@@ -19,6 +25,12 @@ export class Recipe {
 
   @Prop()
   image: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  authorId: string;
+
+  @Prop({ enum: RecipeStatus, default: RecipeStatus.PENDING })
+  status: RecipeStatus;
 }
 
 export const RecipeSchema = SchemaFactory.createForClass(Recipe);
