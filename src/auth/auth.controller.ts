@@ -11,8 +11,8 @@ import { AuthService } from './auth.service';
 import { Request as ExpressRequest } from 'express';
 import { LocalAuthGuard } from './local-auth.guard';
 import { JwtAuthGuard } from './jwt-auth.guard';
-import { CreateUserDto } from 'src/users/dto/createUser.dto';
-import { UserDocument } from 'src/users/schema/user.schema';
+import { CreateUserDto } from '../users/dto/createUser.dto';
+import { UserDocument } from '../users/schema/user.schema';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

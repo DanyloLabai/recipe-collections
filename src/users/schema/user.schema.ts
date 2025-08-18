@@ -3,6 +3,10 @@ import { Document, Types } from 'mongoose';
 
 export type UserDocument = User & Document;
 
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
 @Schema()
 export class User {
   @Prop({ required: true, unique: true })
@@ -13,6 +17,9 @@ export class User {
 
   @Prop()
   username: string;
+
+  @Prop({ type: String, enum: UserRole, default: UserRole.USER })
+  role: UserRole;
 
   @Prop({ default: [] })
   favoriteRecipes: Types.ObjectId[];
