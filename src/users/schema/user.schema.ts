@@ -21,7 +21,7 @@ export class User {
   @Prop({ type: String, enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
-  @Prop({ default: [] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Recipe' }], default: [] })
   favoriteRecipes: Types.ObjectId[];
 }
 

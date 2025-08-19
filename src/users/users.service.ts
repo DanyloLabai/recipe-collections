@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { User, UserDocument, UserRole } from './schema/user.schema';
 import bcrypt from 'bcryptjs';
 import { CreateUserDto } from './dto/createUser.dto';
@@ -56,5 +56,40 @@ export class UsersService {
       throw new NotFoundException(`User with id ${id} not found`);
     }
     return user;
+  }
+
+  async addToFavorite(userId: string, recipeId: string) {
+    try {
+      const user = await this.userModel.findById(userId);
+      if (!user) {
+        throw new NotFoundException('User not foun');
+      }
+
+      if (user.favoriteRecipes.includes(new Types.ObjectId(recipeId))) {
+        user.favoriteRecipes.push(new Types.ObjectId(recipeId));
+        await user.save();
+      }
+
+      return user;
+    } catch (error) {
+      console.error('Error in addToUserFavorite', error);
+    }
+  }
+
+  async deleteFromFavorite(userId: string, recipeId: string) {
+    try {
+      const user = await this.userModel.findById(userId);
+      if (!user) {
+        throw new NotFoundException('User not foun');
+      }
+      user.favoriteRecipes = user.favoriteRecipes.filter(
+        (fav) => fav.toString() !== recipeId,
+      );
+
+      await user.save();
+      return user;
+    } catch (error) {
+      console.error('Error in deleteFavorite', error);
+    }
   }
 }
