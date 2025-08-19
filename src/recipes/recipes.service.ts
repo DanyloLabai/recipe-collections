@@ -72,8 +72,14 @@ export class RecipesService {
     }
   }
 
-  async update(id: string, updateRecipeDto: UpdateRecipeDto): Promise<Recipe> {
+  async update(
+    id: string,
+    updateRecipeDto: UpdateRecipeDto,
+    userRole: UserRole,
+  ): Promise<Recipe> {
     try {
+      if (userRole !== UserRole.ADMIN)
+        throw new ForbiddenException('Only admins can update recipes');
       const updatedRecipe = await this.recipeModel
         .findByIdAndUpdate(id, updateRecipeDto, { new: true })
         .exec();
